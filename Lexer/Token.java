@@ -14,7 +14,7 @@ public class Token {
      * the constructor will throw an exception.
      */
     private static final List<String> legalTypes = new ArrayList<>(Arrays.asList(
-        "register", "integer", "identifier", ":", "->"
+        "register", "integer", "identifier", ":", "->", ","
     ));
     
     private String type;
@@ -35,8 +35,8 @@ public class Token {
     
     public void setType(String newType) {
         
-        if (!legalTypes.contains(type)) {
-            throw new IllegalArgumentException("The type '" + type + "' is invalid.");
+        if (!legalTypes.contains(newType)) {
+            throw new IllegalArgumentException("The type '" + newType + "' is invalid.");
         }
         
         this.type = newType;

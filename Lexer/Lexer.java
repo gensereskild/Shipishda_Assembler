@@ -19,6 +19,7 @@ public class Lexer {
         
         while (index < input.length()) {
             determineType();
+            System.out.println(index + "  " + input.charAt(index));
         }
         
         return tokens;
@@ -26,29 +27,32 @@ public class Lexer {
     }
     
     private void determineType() {
+        
         String substring = input.substring(index, index + 1);
+        
         if (digits.contains(substring)) {
             lexInteger();
         } else if (identifierPrefixes.contains(substring)) {
             lexIdentifier();
-        } else if (substring.equals(":")) {
+        } else if (":,".contains(substring)) {
             index += 1;
-            tokens.add(new Token(":", ":"));
+            tokens.add(new Token(substring, substring));
         } else if (substring.equals("-")) {
             lexArrow();
         } else if ("  \n\t".contains(substring)) {
             index += 1;
         } else {
-            // TODO: Submit some sort of error
-            return;
+            throw new IllegalArgumentException("Invalid input, substring {" + input.charAt(index) + "}");
         }
+        
     }
     
     private void lexInteger() {
         
         StringBuilder integer = new StringBuilder();
         
-        while (index < input.length() && '0' <= input.charAt(index) && '9' <= input.charAt(index)) {
+        // FIXME: Using {@code "" + input.charAt(index)} is cursed, find a better solution ...
+        while (index < input.length() && digits.contains("" + input.charAt(index))) {
             integer.append(input.charAt(index));
             index += 1;
         }
@@ -61,7 +65,8 @@ public class Lexer {
         
         StringBuilder identifier = new StringBuilder();
         
-        while (index < input.length() && '0' <= input.charAt(index) && '9' <= input.charAt(index)) {
+        // FIXME: Using {@code "" + input.charAt(index)} is cursed, find a better solution ...
+        while (index < input.length() && (identifierPrefixes + digits).contains("" + input.charAt(index))) {
             identifier.append(input.charAt(index));
             index += 1;
         }
@@ -82,7 +87,7 @@ public class Lexer {
             tokens.add(new Token("->", "->"));
             index += 2;
         } else {
-            // TODO: Submit an error.
+            throw new IllegalArgumentException("Invalid input, substring " + input.charAt(index));
         }
         
     }
