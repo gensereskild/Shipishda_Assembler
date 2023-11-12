@@ -19,7 +19,6 @@ public class Lexer {
         
         while (index < input.length()) {
             determineType();
-            System.out.println(index + "  " + input.charAt(index));
         }
         
         return tokens;
@@ -71,9 +70,10 @@ public class Lexer {
             index += 1;
         }
         
-        Token newToken = new Token("identifier", identifier.toString());
+        String content = identifier.toString();
+        Token newToken = new Token("identifier", content);
         
-        if (input.matches("r[0-7]")) {
+        if (content.matches("r[0-7]")) {
             newToken.setType("register");
         }
         

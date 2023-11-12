@@ -43,4 +43,14 @@ public class Token {
         
     }
     
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("(" + type + ")");
+        int missing = 25 - builder.length();
+        builder.append(" ".repeat(missing));
+        builder.append(content);
+        return builder.toString();
+    }
+    
 }
